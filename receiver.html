@@ -2,10 +2,34 @@
     <body>
         <script src="//www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js"></script>
         <script>
-(function() {
+(function {
+  
+  var MSG_NAMESPACE = "urn:x-cast:ca.burmis.namespace";
+  
+  window.onload = function() {
+    window.castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
+    window.castReceiverManager.start();
+  };
+  
+  var customMessageBus = castReceiverManager.getCastMessageBus(MSG_NAMESPACE);
+  customMessageBus.onMessage = function(event) {
+    // Handle message
+    log("Received new message!");
+    log("message");
+  }
+  
+  function log(message) {
+    var elem = document.getElementById("logger");
     
+    elem.innerHTML = elem.innerHTML + message + "\n";
+  }
 }());
         </script>
+        <div>
+          <pre id="logger">
+            
+          </pre>
+        </div>
     </body>
 </html>
  
