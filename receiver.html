@@ -12,6 +12,13 @@
     window.castReceiverManager.onReady = function(event) {
       log("CastReceiverManager ready event");
       log(event);
+      
+      var customMessageBus = window.castReceiverManager.getCastMessageBus(MSG_NAMESPACE);
+      customMessageBus.onMessage = function(event) {
+        // Handle message
+        log("Received new message!");
+        log("message");
+      }
     };
     window.castReceiverManager.onSenderConnected = function(event) {
       log("CastReceiverManager senderConnected event");
@@ -19,13 +26,6 @@
     };
     window.castReceiverManager.start();
   };
-  
-  var customMessageBus = window.castReceiverManager.getCastMessageBus(MSG_NAMESPACE);
-  customMessageBus.onMessage = function(event) {
-    // Handle message
-    log("Received new message!");
-    log("message");
-  }
   
   function log(message) {
     var elem = document.getElementById("logger");
