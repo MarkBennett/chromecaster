@@ -10,12 +10,12 @@
     if (loaded) {
       initializeCastApi();
     } else {
-      console.log(errorInfo);
+      log(errorInfo);
     }
   }
   
   function initializeCastApi() {
-    console.log("Initializing Cast...");
+    log("Initializing Cast...");
     
     var sessionRequest = new chrome.cast.SessionRequest(APPLICATION_ID);
     var apiConfig = new chrome.cast.ApiConfig(sessionRequest,
@@ -25,16 +25,16 @@
   }
 
   function receiverListener(e) {
-    console.log("Receiver event");
+    log("Receiver event");
     console.dir(e);
     
     if( e === chrome.cast.ReceiverAvailability.AVAILABLE) {
-      console.log("Receiver Available");
+      log("Receiver Available");
     }
   }
   
   function sessionListener(e) {
-    console.log("Session event");
+    log("Session event");
     console.dir(e);
     
     var session = e;
@@ -44,23 +44,23 @@
   }
   
   function onInitSuccess() {
-    console.log("Cast initialized successfully.");
+    log("Cast initialized successfully.");
   }
   
   function onError(e) {
-    console.log("Cast initialization error!");
+    log("Cast initialization error!");
     console.dir(e);
   }
   
   window.launchSession = function() {
-    console.log("Launching Cast session...");
+    log("Launching Cast session...");
     
     chrome.cast.requestSession(onRequestSessionSuccess, onLaunchError);
   }
   
   function onRequestSessionSuccess(e) {
-    console.log("Session launched!");
-    console.log(e);
+    log("Session launched!");
+    console.dir(e);
     
     var session = e;
     
@@ -68,8 +68,8 @@
   }
   
   function onLaunchError(e) {
-    console.log("Session launch error!");
-    console.log(e);
+    log("Session launch error!");
+    console.dir(e);
   }
   
   function sendMessage(session, body) {
@@ -77,16 +77,28 @@
   }
   
   function onSendMsgSuccess(e) {
-    console.log("Message sent successfully.");
+    log("Message sent successfully.");
     console.dir(e);
   }
   
   function onSendMsgError(e) {
-    console.log("Messaging error!");
+    log("Messaging error!");
     console.dir(e);
+  }
+  
+  function log(message) {
+    console.log(message);
+    var elem = document.getElementById("logger");
+    
+    elem.innerHTML = elem.innerHTML + message + "\n";
   }
 }());
         </script>
+        <input type="text" id="msg" placeholder="your message here..."/>
+        <<button id="send_msg_btn">Send</button>
+        <div>
+            <pre id="log"></pre>
+        </div>
     </body>
 </html>
 
