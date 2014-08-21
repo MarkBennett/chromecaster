@@ -20,7 +20,7 @@
     window.castReceiverManager.start();
   };
   
-  var customMessageBus = castReceiverManager.getCastMessageBus(MSG_NAMESPACE);
+  var customMessageBus = window.castReceiverManager.getCastMessageBus(MSG_NAMESPACE);
   customMessageBus.onMessage = function(event) {
     // Handle message
     log("Received new message!");
