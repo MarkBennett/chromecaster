@@ -75,6 +75,7 @@
   function sendMessage(session, body) {
     session.sendMessage(MSG_NAMESPACE, "Hello?", onSendMsgSuccess, onSendMsgError);
   }
+  window.sendMessage = sendMessage;
   
   function onSendMsgSuccess(e) {
     log("Message sent successfully.");
@@ -92,12 +93,22 @@
     
     elem.innerHTML = elem.innerHTML + message + "\n";
   }
+  
+  window.onload = function() {
+      var btn_elem = document.getElementById("send_msg_btn");
+      
+      btn_elem.addEventListener('click', function(e) {
+          var msg = document.getElementById("msg").value;
+          
+          window.sendMessage(msg);
+      });
+  };
 }());
         </script>
-        <input type="text" id="msg" placeholder="your message here..."/>
-        <<button id="send_msg_btn">Send</button>
+        <input type="text" id="msg" placeholder="your message here...">
+        <button id="send_msg_btn">Send</button>
         <div>
-            <pre id="log"></pre>
+            <pre id="logger"></pre>
         </div>
     </body>
 </html>
