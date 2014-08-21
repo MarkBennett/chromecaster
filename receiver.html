@@ -7,7 +7,16 @@
   var MSG_NAMESPACE = "urn:x-cast:ca.burmis.namespace";
   
   window.onload = function() {
+    log("Starting CastReceiverManager");
     window.castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
+    window.castReceiverManager.onReady = function(event) {
+      log("CastReceiverManager ready event");
+      log(event);
+    };
+    window.castReceiverManager.onSenderConnected = function(event) {
+      log("CastReceiverManager senderConnected event");
+      log(event);
+    };
     window.castReceiverManager.start();
   };
   
