@@ -45,6 +45,8 @@
   
   function onInitSuccess() {
     log("Cast initialized successfully.");
+    
+    launchSession();
   }
   
   function onError(e) {
@@ -52,7 +54,7 @@
     console.dir(e);
   }
   
-  window.launchSession = function() {
+  function launchSession() {
     log("Launching Cast session...");
     
     chrome.cast.requestSession(onRequestSessionSuccess, onLaunchError);
@@ -63,6 +65,9 @@
     console.dir(e);
     
     var session = e;
+    
+    var btn_elem = document.getElementById("send_msg_btn");
+    btn_elem.disabled = false;
     
     sendMessage(session, "Hello from the sender!");
   }
@@ -106,7 +111,7 @@
 }());
         </script>
         <input type="text" id="msg" placeholder="your message here...">
-        <button id="send_msg_btn">Send</button>
+        <button id="send_msg_btn" disabled>Send</button>
         <div>
             <pre id="logger"></pre>
         </div>
