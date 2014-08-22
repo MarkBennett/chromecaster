@@ -6,6 +6,8 @@
   var APPLICATION_ID = "7501E4AA";
   var MSG_NAMESPACE = "urn:x-cast:ca.burmis.namespace";
   
+  var session;
+  
   window['__onGCastApiAvailable'] = function(loaded, errorInfo) {
     if (loaded) {
       initializeCastApi();
@@ -64,12 +66,12 @@
     log("Session launched!");
     console.dir(e);
     
-    var session = e;
+    session = e;
     
     var btn_elem = document.getElementById("send_msg_btn");
     btn_elem.disabled = false;
     
-    sendMessage(session, "Hello from the sender!");
+    sendMessage("Hello from the sender!");
   }
   
   function onLaunchError(e) {
@@ -77,10 +79,9 @@
     console.dir(e);
   }
   
-  function sendMessage(session, body) {
+  function sendMessage(body) {
     session.sendMessage(MSG_NAMESPACE, "Hello?", onSendMsgSuccess, onSendMsgError);
   }
-  window.sendMessage = sendMessage;
   
   function onSendMsgSuccess(e) {
     log("Message sent successfully.");
@@ -105,7 +106,7 @@
       btn_elem.addEventListener('click', function(e) {
           var msg = document.getElementById("msg").value;
           
-          window.sendMessage(msg);
+          sendMessage(msg);
       });
   };
 }());
