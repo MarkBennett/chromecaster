@@ -80,7 +80,7 @@
   }
   
   function sendMessage(body) {
-    session.sendMessage(MSG_NAMESPACE, "Hello?", onSendMsgSuccess, onSendMsgError);
+    session.sendMessage(MSG_NAMESPACE, body, onSendMsgSuccess, onSendMsgError);
   }
   
   function onSendMsgSuccess(e) {
