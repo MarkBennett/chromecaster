@@ -20,9 +20,11 @@
     log("Initializing Cast...");
     
     var sessionRequest = new chrome.cast.SessionRequest(APPLICATION_ID);
+    var autoJoinPolicy = chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED;
     var apiConfig = new chrome.cast.ApiConfig(sessionRequest,
       sessionListener,
-      receiverListener);
+      receiverListener,
+      autoJoinPolicy);
     chrome.cast.initialize(apiConfig, onInitSuccess, onError);
   }
 
