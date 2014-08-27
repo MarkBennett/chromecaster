@@ -53,7 +53,7 @@
   function onInitSuccess() {
     log("Cast initialized successfully.");
     
-    launchSession();
+    window.setTimeout(launchSession, 100);
   }
   
   function onError(e) {
@@ -64,7 +64,12 @@
   function launchSession() {
     log("Launching Cast session...");
     
-    chrome.cast.requestSession(sessionListener, onLaunchError);
+    if (session === undefined) {
+        log("Requesting new session");
+        chrome.cast.requestSession(sessionListener, onLaunchError);
+    } else {
+        log("Session already auto-joined");
+    }
   }
   
   function onLaunchError(e) {
