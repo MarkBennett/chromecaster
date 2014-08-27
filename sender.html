@@ -10,6 +10,7 @@
   
   var btn_elem;
   var start_session_btn;
+  var stop_session_btn;
   var msg_elem;
   
   window['__onGCastApiAvailable'] = function(loaded, errorInfo) {
@@ -59,10 +60,12 @@
   function updateUI() {
     if (session !== undefined) {
       start_session_btn.disabled = true;
+      stop_session_btn = false;
       btn_elem.disabled = false;
       msg_elem.disabled = false;
     } else {
       start_session_btn.disabled = false;
+      stop_session_btn = true;
       btn_elem.disabled = true;
       msg_elem.disabled = true;
     }
@@ -88,6 +91,23 @@
     } else {
         log("Session already auto-joined");
     }
+  }
+  
+  function stopSession() {
+    log("Stopping session...");
+    
+    if (session !== undefined) {
+      session.stop(stopSessionSuccess, stopSessionError);
+    }
+  }
+  
+  function stopSessionSuccess() {
+    log("Session stopped!");
+  }
+  
+  function stopSessionError(err) {
+    log("ERROR: Unable to stop session!");
+    log("ERROR: " + err);
   }
   
   function onLaunchError(e) {
@@ -119,6 +139,7 @@
   window.onload = function() {
     btn_elem = document.getElementById("send_msg_btn");
     start_session_btn = document.getElementById('start_session_btn');
+    stop_session_btn = document.getElementById('stop_session_btn');
     msg_elem = document.getElementById("msg");
     
     btn_elem.addEventListener('click', function(e) {
@@ -129,10 +150,14 @@
     start_session_btn.addEventListener('click', function(e) {
       launchSession();
     });
+    stop_session_btn.addEventListener('click', function(e) {
+      stopSession();
+    })
   };
 }());
         </script>
-        <button id="start_session_btn" disabled>Start Casting!</button>
+        <button id="start_session_btn" disabled>Start Casting</button>
+        <button id="stop_session_btn" disabled>Stop Casting</button>
         <input type="text" id="msg" placeholder="your message here...">
         <button id="send_msg_btn" disabled>Send</button>
         <div>
