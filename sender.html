@@ -41,9 +41,12 @@
     log("Session event");
     console.dir(e);
     
-    var session = e;
-    if (session.media.length != 0) {
-      onMediaDiscovered('onRequestSessionSuccess', session.media[0]);
+    session = e;
+    if (session !== undefined) {
+        var btn_elem = document.getElementById("send_msg_btn");
+        btn_elem.disabled = false;
+        
+        sendMessage("Hello from the sender!");
     }
   }
   
@@ -61,19 +64,7 @@
   function launchSession() {
     log("Launching Cast session...");
     
-    chrome.cast.requestSession(onRequestSessionSuccess, onLaunchError);
-  }
-  
-  function onRequestSessionSuccess(e) {
-    log("Session launched!");
-    console.dir(e);
-    
-    session = e;
-    
-    var btn_elem = document.getElementById("send_msg_btn");
-    btn_elem.disabled = false;
-    
-    sendMessage("Hello from the sender!");
+    chrome.cast.requestSession(sessionListener, onLaunchError);
   }
   
   function onLaunchError(e) {
