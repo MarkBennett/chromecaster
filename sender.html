@@ -8,6 +8,10 @@
   
   var session;
   
+  var btn_elem;
+  var start_session_btn;
+  var msg_elem;
+  
   window['__onGCastApiAvailable'] = function(loaded, errorInfo) {
     if (loaded) {
       initializeCastApi();
@@ -35,6 +39,8 @@
     if( e === chrome.cast.ReceiverAvailability.AVAILABLE) {
       log("Receiver Available");
     }
+    
+    updateUI();
   }
   
   function sessionListener(e) {
@@ -42,16 +48,30 @@
     console.dir(e);
     
     session = e;
+    
     if (session !== undefined) {
-        var btn_elem = document.getElementById("send_msg_btn");
-        btn_elem.disabled = false;
-        
-        sendMessage("Hello from the sender!");
+      sendMessage("Hello from the sender!");
+    }
+    
+    updateUI();
+  }
+  
+  function updateUI() {
+    if (session !== undefined) {
+      start_session_btn.disabled = true;
+      btn_elem.disabled = false;
+      msg_elem.disabled = false;
+    } else {
+      start_session_btn.disabled = false;
+      btn_elem.disabled = true;
+      msg_elem.disabled = true;
     }
   }
   
   function onInitSuccess() {
     log("Cast initialized successfully.");
+    
+    updateUI();
     
     window.setTimeout(launchSession, 100);
   }
@@ -99,16 +119,22 @@
   }
   
   window.onload = function() {
-      var btn_elem = document.getElementById("send_msg_btn");
+    btn_elem = document.getElementById("send_msg_btn");
+    start_session_btn = document.getElementById('start_session_btn');
+    msg_elem = document.getElementById("msg");
+    
+    btn_elem.addEventListener('click', function(e) {
+      var msg = document.getElementById("msg").value;
       
-      btn_elem.addEventListener('click', function(e) {
-          var msg = document.getElementById("msg").value;
-          
-          sendMessage(msg);
-      });
+      sendMessage(msg);
+    });
+    start_session_btn.addEventListener('click', function(e) {
+      launchSession();
+    });
   };
 }());
         </script>
+        <button id="start_session_btn" disabled>Start Casting!</button>
         <input type="text" id="msg" placeholder="your message here...">
         <button id="send_msg_btn" disabled>Send</button>
         <div>
