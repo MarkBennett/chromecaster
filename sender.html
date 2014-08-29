@@ -60,12 +60,12 @@
   function updateUI() {
     if (session !== undefined) {
       start_session_btn.disabled = true;
-      stop_session_btn = false;
+      stop_session_btn.disabled = false;
       btn_elem.disabled = false;
       msg_elem.disabled = false;
     } else {
       start_session_btn.disabled = false;
-      stop_session_btn = true;
+      stop_session_btn.disabled = true;
       btn_elem.disabled = true;
       msg_elem.disabled = true;
     }
