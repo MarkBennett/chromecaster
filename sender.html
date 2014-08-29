@@ -103,11 +103,18 @@
   
   function stopSessionSuccess() {
     log("Session stopped!");
+    session = undefined;
+    
+    updateUI();
   }
   
   function stopSessionError(err) {
     log("ERROR: Unable to stop session!");
     log("ERROR: " + err);
+    
+    session = undefined;
+    
+    updateUI();
   }
   
   function onLaunchError(e) {
@@ -127,6 +134,12 @@
   function onSendMsgError(e) {
     log("Messaging error!");
     console.dir(e);
+    
+    if (e.code && e.code === "session_error") {
+      session = undefined;
+      
+      updateUI();
+    }
   }
   
   function log(message) {
