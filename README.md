@@ -18,7 +18,9 @@ What do you need to get started?
 * [ ] A Google account
 * [ ] A place to host your custom receiver
 * [ ] Chromecast registered on [Google SDK Developer Console](https://cast.google.com/publish/#/devices)
+* [ ] That remote debugging works on your Chromecast ([details](https://developers.google.com/cast/docs/custom_receiver#debugging))
 * [ ] Custom Received App registerd on [Google SDK Developer Console](https://cast.google.com/publish/#/applications)
+* [ ] Your Chromecast has been restarted since your app was registered
 
 Troubleshooting
 ===
