@@ -4,6 +4,11 @@ chromecaster
 A demonstration Chromecast app.
 
 
+What is Chromecast?
+============
+
+* [https://docs.google.com/drawings/d/1LkJFn5XWxA_KPXxmrV0bqGMHrY5CeY0zD_TYqsbl0bE/pub?w=960&h=720](Launching an app)
+
 
 links
 ======
