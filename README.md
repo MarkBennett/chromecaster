@@ -112,6 +112,8 @@ Regardless of how it was triggered, at this point your `sessionListener` should 
             sendMessage("Hello from the sender!");
         }
     }
+    
+You can use this session to send messages to the receiver, as well as to disconnect from the receiver once you're done. Though all sessions will eventually timeout after a period of inactivity, it's considered good form to gracefully disconnect once you're done.
 
 Troubleshooting
 ===
