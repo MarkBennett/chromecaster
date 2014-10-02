@@ -59,6 +59,59 @@ To send and receiver messages you'll need to get a reference to the [CastMessage
 
 You can also use the `broadcast()` and `send()` methods of the `customMessageBus` to send messages back to the sender apps.
 
+Building the Sender App
+====
+
+You connect the sender app to the Chromecast receiver app using the Google Cast Chrome Sender API to create and manage a Chromecast session. To begin, you need to include this API in your sender app:
+
+    <script type="text/javascript" src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js"></script>
+
+Once connected you need to wait for the API to complete loading, then initialize the Chromecast with a session request and configuration.
+
+    // Wait for the API to complete loading
+    window['__onGCastApiAvailable'] = function(loaded, errorInfo) {
+        if (loaded) {
+          initializeCastApi();
+        } else {
+          log(errorInfo);
+        }
+    }
+    
+    function initializeCastApi() {
+        var sessionRequest = new chrome.cast.SessionRequest(APPLICATION_ID);
+        var autoJoinPolicy = chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED;
+        var apiConfig = new chrome.cast.ApiConfig(sessionRequest,
+            sessionListener,
+            receiverListener,
+            autoJoinPolicy);
+        chrome.cast.initialize(apiConfig, onInitSuccess, onError);
+    }
+    
+We have now initialized the Chromecast API and wired up the event listeners which will get triggered later once we connect with the receiver and Chromecast session. We haven't actually tried to connect to the Chromecast yet, or join a session with a receiver app.
+
+At this point two things can happen: we can start a new session, or else the sender app can autojoin with a receiver app session already running.
+
+If we've set the `autoJoinPolicy` to ORIGIN_SCOPED, and there's an existing session we can join then our `sessionListener` will be triggered with a reference to the existing session, and the `receiverListener` will be invoked with a reference to the Chromecast already in use. We can then start sending and receiving messages with the existing receiver app already loaded on the Chromecast. It's important to note that this can all happen without the user needing to interact with the Chromecast UI.
+
+Otherwise, if we're not joining an existing session, we're going to need to request a new one be created.
+
+    chrome.cast.requestSession(sessionListener, onLaunchError);
+
+Calling this will kick off the Chromecast UI and allow the user to select the Chromecast they'd like to use. Then the selected Chromecast will launch the receiver app, create a new session and invoke your `sessionListener`. If anything goes wrong, or the user cancels or dismisses the Chromecast UI, then the onLaunchError will be invoked with details. It's useful to note that the `sessionListener` registered with this callback, and the one registered when you configured the Chromecast API use the same method signature and are re-used in most apps I've seen.
+
+Regardless of how it was triggered, at this point your `sessionListener` should have been invoked with a reference to a Chromecast session. This is what a typical session listener looks like:
+
+    var session;
+    
+    function sessionListener(e) {
+        // Save a reference to the session we can use later
+        session = e;
+    
+        if (session !== undefined) {
+            // We have a session, let's do something with it!
+            sendMessage("Hello from the sender!");
+        }
+    }
 
 Troubleshooting
 ===
