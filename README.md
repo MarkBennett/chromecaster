@@ -99,7 +99,7 @@ Otherwise, if we're not joining an existing session, we're going to need to requ
 
 Calling this will kick off the Chromecast UI and allow the user to select the Chromecast they'd like to use. Then the selected Chromecast will launch the receiver app, create a new session and invoke your `sessionListener`. If anything goes wrong, or the user cancels or dismisses the Chromecast UI, then the onLaunchError will be invoked with details. It's useful to note that the `sessionListener` registered with this callback, and the one registered when you configured the Chromecast API use the same method signature and are re-used in most apps I've seen.
 
-Regardless of how it was triggered, at this point your `sessionListener` should have been invoked with a reference to a Chromecast session. This is what a typical session listener looks like:
+Regardless of how it was triggered, at this point your `sessionListener` should have been invoked with a reference to a Chromecast [Session](https://developers.google.com/cast/docs/reference/chrome/chrome.cast.Session). This is what a typical session listener looks like:
 
     var session;
     
@@ -114,6 +114,8 @@ Regardless of how it was triggered, at this point your `sessionListener` should 
     }
     
 You can use this session to send messages to the receiver, as well as to disconnect from the receiver once you're done. Though all sessions will eventually timeout after a period of inactivity, it's considered good form to gracefully disconnect once you're done.
+
+    session.leave()
 
 Troubleshooting
 ===
