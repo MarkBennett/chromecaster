@@ -69,8 +69,8 @@ Troubleshooting
 links
 ======
 
-* [receiver](https://rawgit.com/MarkBennett/chromecaster/gh-pages/receiver.html)
-* [sender](https://rawgit.com/MarkBennett/chromecaster/gh-pages/sender.html)
+* [receiver](http://markbennett.ca/chromecaster/receiver.html)
+* [sender](http://markbennett.ca/chromecaster/sender.html)
 * [app console](https://cast.google.com/publish/#/overview)
 * [reveiver dev guide](https://developers.google.com/cast/docs/custom_receiver)
 * [sender dev guide](https://developers.google.com/cast/docs/chrome_sender)
